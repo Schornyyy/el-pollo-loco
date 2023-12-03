@@ -52,7 +52,8 @@ class World {
             this.ctx.scale(-1, 1);
             mo.position_x = mo.position_x * -1;
         }
-        this.ctx.drawImage(mo.img, mo.position_x, mo.position_y, mo.width, mo.height)
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx)
         if(mo.otherDirection) {
             mo.position_x = mo.position_x * -1
             this.ctx.restore();
