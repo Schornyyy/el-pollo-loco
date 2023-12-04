@@ -1,16 +1,11 @@
-class MoveableObject {
-    position_x = 120;
-    position_y = 280;
-    img;
-    height = 150;
-    width = 100;
-    imageCache = [];
-    currentImage = 0;
+class MoveableObject extends DrawableObject{
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
     acceleration = 1.5;
     isJumping = false;
+    energy = 100;
+    lastHit = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -25,38 +20,14 @@ class MoveableObject {
     }
 
     isAboveGround() {
+        if(this instanceof ThrowableObject) return true;
         return this.position_y < 150;
     }
 
-    loadImage(path) {
-        this.img = new Image()
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img; 
-        });
-    }
 
     moveLeft() {
         this.position_x -= this.speed;
 
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.position_x, this.position_y, this.width, this.height)
-        
-    }
-
-    drawFrame(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = "5";
-        ctx.strokeStyle = "Blue";
-        ctx.rect(this.position_x,this.position_y,this.width,this.height)
-        ctx.stroke();
     }
 
     playAnimation(images) {
@@ -74,5 +45,31 @@ class MoveableObject {
     moveRight() {
         this.position_x += this.speed;
         this.otherDirection = false;
+    }
+
+    isColliding(mo) {
+        return this.position_x + this.width > mo.position_x 
+        && this.position_y + this.height > mo.position_y
+        && this.position_x < mo.position_x
+        && this.position_y < mo.position_y + mo.height;
+    }
+
+    hit() {
+        this.energy -= 5;
+        if(this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
+    }
+
+    isDead() {
+        return this.energy == 0;
     }
 }
