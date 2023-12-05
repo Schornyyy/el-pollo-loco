@@ -22,10 +22,18 @@
     <script src="./models/endboss.class.js"></script>
     <script src="./levels/level1.js"></script>
     <script src="./models/charakter.class.js"></script>
+    <script src="./models/startscreen.class.js"></script>
     <script src="./js/game.js"></script>
   </head>
   <body onload="init()">
     <h1>El pollo loco</h1>
     <canvas width="720" height="480" id="canvas"> </canvas>
+    <div id="start">
+      <button>Spiel Starten</button>
+    </div>
+    <div id="pause" style="display: none">
+      <button id="continue">Weiterspielen</button>
+      <button id="restart">Neu starten</button>
+    </div>
   </body>
 </html>

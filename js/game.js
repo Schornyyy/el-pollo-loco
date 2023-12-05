@@ -5,7 +5,10 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard)
-
+    document.getElementById("start").addEventListener("click", (e) => {
+        e.target.style = "display: none;"
+        world.setStatus("PLAY");
+    })
 }
 
 window.addEventListener('keydown', (e) => {
@@ -28,6 +31,13 @@ window.addEventListener('keydown', (e) => {
 
     if(e.keyCode == 68) {
         keyboard.D = true;
+    }
+
+    if(e.keyCode == 27) {
+        keyboard.ESC = !keyboard.ESC;
+        if(keyboard.ESC && world.STATUS === "PLAY") {
+            world.STATUS = "PAUSED";
+        }
     }
 })
 

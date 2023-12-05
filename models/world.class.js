@@ -10,6 +10,8 @@ class World {
     coinbar = new Coinbar();
     bottlebar = new BottleBar()
     throwableObjects = [];
+    startScreen = new StartScreen(this);
+    STATUS = "START";
 
     
     constructor(canvas, keyboard) {
@@ -32,11 +34,15 @@ class World {
         }, 100)
     }
 
+    setStatus(status) {
+        this.STATUS = status;
+    }
+
     checkThrowObjects() {
         if(this.keyboard.D) {
             if(this.level.bottleAmount > 0) {
                 let percantage = ((this.throwableObjects.length / this.level.bottleAmount) * 100);
-                this.bottlebar.setPercentage(percantage);
+                this.bottlebar.setPercentage(this.percantage);
                 let bottle = new ThrowableObject(this.charakter.position_x + 50, this.charakter.position_y + 100);
                 this.throwableObjects.push(bottle)
                 this.level.bottleAmount --;
@@ -70,19 +76,21 @@ class World {
     draw() {
         this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
 
-        this.ctx.translate(this.camera_x, 0);
+        this.addToMap(this.startScreen)
+        if(this.STATUS === "PLAY") {
+            this.ctx.translate(this.camera_x, 0);
+            this.addObjectsToMap(this.level.backgroundObjects);
+            this.addToMap(this.charakter)
 
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.charakter)
-
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.throwableObjects)
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.healthbar);
-        this.addToMap(this.coinbar);
-        this.addToMap(this.bottlebar);
+            this.addObjectsToMap(this.level.enemies);
+            this.addObjectsToMap(this.level.clouds);
+            this.addObjectsToMap(this.level.coins);
+            this.addObjectsToMap(this.throwableObjects)
+            this.ctx.translate(-this.camera_x, 0);
+            this.addToMap(this.healthbar);
+            this.addToMap(this.coinbar);
+            this.addToMap(this.bottlebar);
+        }
 
         let self = this;
         requestAnimationFrame(function() {
