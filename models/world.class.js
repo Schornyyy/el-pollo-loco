@@ -35,14 +35,50 @@ class World {
     }
 
     setStatus(status) {
+        switch (status) {
+            case "START":
+                document.getElementById("start").sytle = "display: none;";
+                console.log(c);
+                break;
+            case "PAUSE":
+                this.setAllToPause(this.level.enemies);
+                this.setAllToPause(this.level.clouds);
+                this.setAllToPause(this.level.coins);
+                this.charakter.isPlaying = false;
+                break;
+            case "PLAY":
+                this.setAllToPlaying(this.level.enemies);
+                this.setAllToPlaying(this.level.clouds);
+                this.setAllToPlaying(this.level.coins);
+                this.charakter.isPlaying = true;
+                break;
+            default:
+                break;
+        }
         this.STATUS = status;
+    }
+
+    setAllToPause(arr) {
+        arr.forEach((e) => {
+            e.isPlaying = false;
+        })
+    }
+
+    setAllToPlaying(arr) {
+        arr.forEach((e) => {
+            e.isPlaying = true;
+        })
+    }
+
+    SetMoveableObjectToPause(mo) {
+        mo.isPlaying = false;
     }
 
     checkThrowObjects() {
         if(this.keyboard.D) {
             if(this.level.bottleAmount > 0) {
                 let percantage = ((this.throwableObjects.length / this.level.bottleAmount) * 100);
-                this.bottlebar.setPercentage(this.percantage);
+                this.bottlebar.setPercentage(percantage);
                 let bottle = new ThrowableObject(this.charakter.position_x + 50, this.charakter.position_y + 100);
                 this.throwableObjects.push(bottle)
                 this.level.bottleAmount --;
@@ -51,20 +87,34 @@ class World {
     }
 
     checkCollisions() {
-        this.level.enemies.forEach(enemy => {
-            if(this.charakter.isColliding(enemy)) {
-                this.charakter.hit()
-                this.healthbar.setPercentage(this.charakter.energy)
-            }
-        })
+        if(this.STATUS == "PLAY") {
+            this.level.enemies.forEach(enemy => {
+                if(this.charakter.isColliding(enemy)) {
+                    this.charakter.hit()
+                    this.healthbar.setPercentage(this.charakter.energy)
+                }
+            })
+    
+            this.level.coins.forEach((coin, index) => {
+                if(this.charakter.isColliding(coin)) {
+                    this.charakter.collectCoin(1, index);
+                    let percantage = (100  * this.charakter.coins) / this.level.coinsAmount;
+                    this.coinbar.setPercentage(percantage);
+                }
+            })
 
-        this.level.coins.forEach((coin, index) => {
-            if(this.charakter.isColliding(coin)) {
-                this.charakter.collectCoin(1, index);
-                let percantage = (100  * this.charakter.coins) / this.level.coinsAmount;
-                this.coinbar.setPercentage(percantage);
-            }
-        })
+            this.throwableObjects.forEach((bottle, index) => {
+                this.level.enemies.forEach((enemy, index) => {
+                    if(bottle.isColliding(enemy)) {
+                        bottle.colliding = true;
+                        enemy.health -= bottle.damage;
+                        enemy.healthbar.setPercentage(enemy.health);
+                        console.log(enemy.health);
+                    }
+                })
+            })
+
+        }
     }
 
 
@@ -76,13 +126,20 @@ class World {
     draw() {
         this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
 
-        this.addToMap(this.startScreen)
-        if(this.STATUS === "PLAY") {
+        if(this.STATUS === "START") {
+            this.addToMap(this.startScreen)
+        }
+        if(this.STATUS === "PLAY" || this.STATUS === "PAUSE") {
             this.ctx.translate(this.camera_x, 0);
             this.addObjectsToMap(this.level.backgroundObjects);
             this.addToMap(this.charakter)
 
             this.addObjectsToMap(this.level.enemies);
+            this.level.enemies.forEach((enemy) => {
+                if(enemy instanceof Chicken || enemy instanceof Endboss) {
+                    this.addToMap(enemy.healthbar);
+                }
+            });
             this.addObjectsToMap(this.level.clouds);
             this.addObjectsToMap(this.level.coins);
             this.addObjectsToMap(this.throwableObjects)

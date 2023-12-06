@@ -3,6 +3,7 @@ class Chicken extends MoveableObject{
     height = 60;
     width = 80;
     health = 40;
+    healthbar = new Healthbar();
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -16,15 +17,20 @@ class Chicken extends MoveableObject{
         this.position_x = 200 + (Math.random() * 500);
         this.speed = 0.15 + Math.random() * 0.25;
         this.animate();
+        this.healthbar.position_y = this.position_y + 20;
     }
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            if(this.isPlaying) {
+                this.moveLeft();
+            }
         }, 1000 / 60)
         
         setInterval(() => {
-            this.playAnimation(this.IMAGES_WALKING)
+            if(this.isPlaying) {
+                this.playAnimation(this.IMAGES_WALKING)
+            }
         }, 100)
     }
 }

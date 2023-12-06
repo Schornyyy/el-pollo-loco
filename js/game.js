@@ -5,10 +5,13 @@ let keyboard = new Keyboard();
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard)
+
     document.getElementById("start").addEventListener("click", (e) => {
-        e.target.style = "display: none;"
         world.setStatus("PLAY");
+        document.getElementById("start").style = "display: none;"
+        console.log("test");
     })
+
 }
 
 window.addEventListener('keydown', (e) => {
@@ -36,7 +39,15 @@ window.addEventListener('keydown', (e) => {
     if(e.keyCode == 27) {
         keyboard.ESC = !keyboard.ESC;
         if(keyboard.ESC && world.STATUS === "PLAY") {
-            world.STATUS = "PAUSED";
+            world.setStatus("PAUSE");
+            document.getElementById("pause").style = "display: flex";
+            document.getElementById("continue").addEventListener("click", (e) => {
+                world.setStatus("PLAY");
+                document.getElementById("continue"),style = "display: none";
+            })
+        } else {
+            world.setStatus("PLAY")
+            document.getElementById("pause").style = "display: none";
         }
     }
 })

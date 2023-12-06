@@ -6,6 +6,8 @@ class MoveableObject extends DrawableObject{
     isJumping = false;
     energy = 100;
     lastHit = 0;
+    isPlaying = false;
+    healthbar = new Healthbar();
 
     applyGravity() {
         setInterval(() => {
@@ -19,6 +21,7 @@ class MoveableObject extends DrawableObject{
         }, 1000 / 25)
     }
 
+
     isAboveGround() {
         if(this instanceof ThrowableObject) return true;
         return this.position_y < 150;
@@ -26,15 +29,22 @@ class MoveableObject extends DrawableObject{
 
 
     moveLeft() {
-        this.position_x -= this.speed;
-
+        if(this.isPlaying) {
+            this.healthbar.position_x = this.position_x;
+            this.healthbar.position_y = this.position_y - 50;
+            this.healthbar.width = this.width;
+            this.healthbar.height = 50;
+            this.position_x -= this.speed;
+        }
     }
 
     playAnimation(images) {
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        if(this.isPlaying) {
+            let i = this.currentImage % images.length;
+            let path = images[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        }
     }
 
     jump() {
