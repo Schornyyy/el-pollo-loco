@@ -90,8 +90,10 @@ class World {
         if(this.STATUS == "PLAY") {
             this.level.enemies.forEach(enemy => {
                 if(this.charakter.isColliding(enemy)) {
-                    this.charakter.hit()
-                    this.healthbar.setPercentage(this.charakter.energy)
+                    if(enemy.health > 0) {
+                        this.charakter.hit()
+                        this.healthbar.setPercentage(this.charakter.energy)
+                    }
                 }
             })
     
@@ -103,13 +105,18 @@ class World {
                 }
             })
 
-            this.throwableObjects.forEach((bottle, index) => {
+            this.throwableObjects.forEach((bottle, bindex) => {
                 this.level.enemies.forEach((enemy, index) => {
                     if(bottle.isColliding(enemy)) {
-                        bottle.colliding = true;
-                        enemy.health -= bottle.damage;
-                        enemy.healthbar.setPercentage(enemy.health);
-                        console.log(enemy.health);
+                        if(enemy.health > 0) {
+                            bottle.colliding = true;
+                            bottle.playSplashAnimation();
+                            enemy.health -= bottle.damage;
+                            enemy.healthbar.setPercentage(enemy.health);
+                            setTimeout(() => {
+                                this.throwableObjects.splice(bindex, 1);
+                            }, 200);
+                        }
                     }
                 })
             })

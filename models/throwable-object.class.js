@@ -26,6 +26,7 @@ class ThrowableObject extends MoveableObject {
         this.position_y = y;
         this.height = 75;
         this.width = 50;
+        this.isPlaying = true;
         this.throw()
     }
 
@@ -41,11 +42,21 @@ class ThrowableObject extends MoveableObject {
         }, 25);
 
         setInterval(() => {
-            if(this.colliding) {
-                this.playAnimation(this.SPLASH_IMAGES);
-            } else {
-                this.playAnimation(this.IMAGES);
+                    this.playAnimation(this.IMAGES);
+                
+        }, 75)
+    }
+
+    playSplashAnimation() {
+        let i = 0;
+        let test = setInterval(() => {
+            i++;
+            console.log(i);
+            if(i >= this.SPLASH_IMAGES.length) {
+                clearInterval(test);
             }
+        this.playAnimation(this.SPLASH_IMAGES);
+        this.speedY = 0;
         }, 75)
     }
 

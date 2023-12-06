@@ -22,7 +22,7 @@ class Chicken extends MoveableObject{
 
     animate() {
         setInterval(() => {
-            if(this.isPlaying) {
+            if(this.isPlaying && this.health > 0) {
                 this.moveLeft();
             }
         }, 1000 / 60)
@@ -30,6 +30,9 @@ class Chicken extends MoveableObject{
         setInterval(() => {
             if(this.isPlaying) {
                 this.playAnimation(this.IMAGES_WALKING)
+                if(this.health <= 0) {
+                    this.loadImage('img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
+                }
             }
         }, 100)
     }

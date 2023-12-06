@@ -14,6 +14,7 @@ class Endboss extends MoveableObject {
     height = 300;
     width = 200;
     position_y = 150;
+    health = 200;
 
     constructor(x) {
         super().loadImage(this.IMAGES_WALKING[0]);

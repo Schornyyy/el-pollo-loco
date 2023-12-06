@@ -1,7 +1,7 @@
 class Character extends MoveableObject{
 
     height = 280;
-    position_y = -100;
+    position_y = 180;
     coins = 0;
     bottles;
     speed = 10;
