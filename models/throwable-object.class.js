@@ -37,7 +37,11 @@ class ThrowableObject extends MoveableObject {
             if(this.colliding) {
                 this.position_x = this.position_x;
             } else {
-                this.position_x += 10;
+                if(this.otherDirection) {
+                    this.position_x -= 10;
+                } else {
+                    this.position_x += 10;
+                }
             }
         }, 25);
 
