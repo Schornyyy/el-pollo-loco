@@ -9,7 +9,7 @@ function init() {
     document.getElementById("start").addEventListener("click", (e) => {
         world.setStatus("PLAY");
         document.getElementById("start").style = "display: none;"
-        console.log("test");
+        
     })
 
 }
@@ -43,7 +43,7 @@ window.addEventListener('keydown', (e) => {
             document.getElementById("pause").style = "display: flex";
             document.getElementById("continue").addEventListener("click", (e) => {
                 world.setStatus("PLAY");
-                document.getElementById("continue"),style = "display: none";
+                document.getElementById("pause").style = "display: none";
             })
         } else {
             world.setStatus("PLAY")

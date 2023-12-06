@@ -11,6 +11,7 @@ class World {
     bottlebar = new BottleBar()
     throwableObjects = [];
     startScreen = new StartScreen(this);
+    endScreen;
     STATUS = "START";
 
     
@@ -25,6 +26,7 @@ class World {
         this.coinbar.position_x += this.camera_x;
         this.bottlebar.position_x += this.coinbar.position_x - 60;
         this.charakter.bottles = this.level.bottles;
+        this.endScreen = new Endscreen(this);
     }
 
     run() {
@@ -38,7 +40,6 @@ class World {
         switch (status) {
             case "START":
                 document.getElementById("start").sytle = "display: none;";
-                console.log(c);
                 break;
             case "PAUSE":
                 this.setAllToPause(this.level.enemies);
@@ -51,6 +52,12 @@ class World {
                 this.setAllToPlaying(this.level.clouds);
                 this.setAllToPlaying(this.level.coins);
                 this.charakter.isPlaying = true;
+                break;
+            case "END":
+                this.setAllToPause(this.level.enemies);
+                this.setAllToPause(this.level.clouds);
+                this.setAllToPause(this.level.coins);
+                this.charakter.isPlaying = false;
                 break;
             default:
                 break;
@@ -129,21 +136,18 @@ class World {
         this.charakter.world = this;
     }
 
+    drawStartScreen() {
+        this.addToMap(this.startScreen)
+    }
 
-    draw() {
-        this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
-
-        if(this.STATUS === "START") {
-            this.addToMap(this.startScreen)
-        }
-        if(this.STATUS === "PLAY" || this.STATUS === "PAUSE") {
+    drawWorld() {
             this.ctx.translate(this.camera_x, 0);
             this.addObjectsToMap(this.level.backgroundObjects);
             this.addToMap(this.charakter)
 
             this.addObjectsToMap(this.level.enemies);
             this.level.enemies.forEach((enemy) => {
-                if(enemy instanceof Chicken || enemy instanceof Endboss) {
+                if(enemy instanceof Chicken) {
                     this.addToMap(enemy.healthbar);
                 }
             });
@@ -154,6 +158,26 @@ class World {
             this.addToMap(this.healthbar);
             this.addToMap(this.coinbar);
             this.addToMap(this.bottlebar);
+    }
+
+    drawEndScreen() {
+        this.addToMap(this.endScreen)
+    }
+
+
+    draw() {
+        this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height)
+
+        if(this.STATUS === "START") {
+            this.drawStartScreen();
+        }
+        if(this.STATUS === "PLAY" || this.STATUS === "PAUSE") {
+            this.drawWorld();
+        }
+
+        if(this.STATUS == "END") {
+            this.drawWorld();
+            this.drawEndScreen();
         }
 
         let self = this;

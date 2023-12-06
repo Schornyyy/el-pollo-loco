@@ -51,7 +51,6 @@ class ThrowableObject extends MoveableObject {
         let i = 0;
         let test = setInterval(() => {
             i++;
-            console.log(i);
             if(i >= this.SPLASH_IMAGES.length) {
                 clearInterval(test);
             }
