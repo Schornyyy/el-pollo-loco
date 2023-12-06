@@ -5,7 +5,7 @@
     position_x = 0;
     position_y = 0;
     otherDirection = false;
-    IMAGES = ["img/9_intro_outro_screens/start/startscreen_1.png", "img/9_intro_outro_screens/start/startscreen_2.png"]
+    IMAGES = ["./img/9_intro_outro_screens/start/startscreen_1.png", "./img/9_intro_outro_screens/start/startscreen_2.png"]
 
 
     constructor(world) {

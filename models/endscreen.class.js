@@ -5,10 +5,10 @@ class Endscreen extends MoveableObject {
     position_x = 0;
     position_y = 0;
     IMAGES = [
-        'img/9_intro_outro_screens/game_over/game over!.png',
-        'img/9_intro_outro_screens/game_over/game over.png',
-        'img/9_intro_outro_screens/game_over/oh no you lost!.png',
-        'img/9_intro_outro_screens/game_over/you lost.png'
+        './img/9_intro_outro_screens/game_over/game over!.png',
+        './img/9_intro_outro_screens/game_over/game over.png',
+        './img/9_intro_outro_screens/game_over/oh no you lost!.png',
+        './img/9_intro_outro_screens/game_over/you lost.png'
     ]
     otherDirection = false;
 
