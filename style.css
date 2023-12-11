@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Rye&display=swap");
+
 body {
   display: flex;
   flex-direction: column;
@@ -5,6 +7,13 @@ body {
   align-items: center;
   background-image: url("./img/5_background/desert-5112222.svg");
   background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 99%;
+}
+
+* {
+  font-family: "Rye", sans-serif;
 }
 
 canvas {
@@ -15,7 +24,7 @@ canvas {
 
 #start {
   position: absolute;
-  top: 35%;
+  top: 40%;
 }
 
 button {
@@ -57,7 +66,7 @@ button:hover {
   gap: 20px;
 }
 
-#restart {
+#pause-restart {
   background-color: rgb(238, 69, 69);
 }
 
@@ -65,6 +74,7 @@ button:hover {
   display: flex;
   flex-direction: row;
   gap: 20px;
+  width: 100%;
   margin-top: 2rem;
   justify-content: center;
   align-items: center;
@@ -74,10 +84,17 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 15%;
+}
+
+.key p {
+  text-align: center;
 }
 
 .button {
   border: 1px solid black;
+  background-color: white;
   border-radius: 5px;
   padding: 15px;
   box-shadow: 3px 3px 0px black;
@@ -85,6 +102,51 @@ button:hover {
   justify-self: center;
   align-self: center;
   width: fit-content;
+}
+
+#movement {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  flex-direction: column;
+  display: none;
+}
+
+#movement button {
+  display: flex;
+  height: 48px;
+  width: 48px;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#movement button img {
+  height: 32px;
+  width: 32px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  height: 64px;
+}
+
+.row button {
+  margin-left: 30px;
+}
+
+.row-2 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+#options {
+  position: absolute;
+  display: none;
+  bottom: 15px;
+  right: 15px;
 }
 
 @media only screen and (max-width: 760px) {
@@ -96,5 +158,29 @@ button:hover {
 @media only screen and (max-height: 480px) {
   canvas {
     height: 100vh;
+  }
+}
+
+@media (orientation: landscape) {
+  canvas {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+  body {
+    background-image: none;
+    margin: 0;
+  }
+  .keys,
+  h1 {
+    display: none;
+  }
+
+  .movement {
+    display: flex;
+  }
+
+  .options {
+    display: block;
   }
 }

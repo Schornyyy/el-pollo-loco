@@ -118,7 +118,6 @@ class Character extends MoveableObject{
                     this.playAnimation(this.IMAGES_DEAD);
                     setTimeout(() => {
                         this.world.setStatus("END");
-                        clearInterval(animations)
                     }, 200);
                 } else if(this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);

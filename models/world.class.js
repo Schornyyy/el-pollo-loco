@@ -1,7 +1,7 @@
 class World {
 
     charakter = new Character();
-    level = level1;
+    level = createLevel();
     canvas;
     ctx;
     keyboard;
@@ -15,6 +15,7 @@ class World {
     STATUS = "START";
     splash_sound = new Audio('audio/bottle.mp3');
     chicken_hurt = new Audio('audio/chicken_hurt.mp3');
+    music = new Audio('audio/music.mp3');
 
     
     constructor(canvas, keyboard) {
@@ -40,6 +41,10 @@ class World {
         }, 100)
     }
 
+    restart() {
+
+    }
+
     setStatus(status) {
         switch (status) {
             case "START":
@@ -50,18 +55,24 @@ class World {
                 this.setAllToPause(this.level.clouds);
                 this.setAllToPause(this.level.coins);
                 this.charakter.isPlaying = false;
+                this.music.pause();
                 break;
             case "PLAY":
                 this.setAllToPlaying(this.level.enemies);
                 this.setAllToPlaying(this.level.clouds);
                 this.setAllToPlaying(this.level.coins);
                 this.charakter.isPlaying = true;
+                this.music.volume = 0.02;
+                this.music.play();
+                document.getElementById("pause").style = 'display: none';
                 break;
             case "END":
                 this.setAllToPause(this.level.enemies);
                 this.setAllToPause(this.level.clouds);
                 this.setAllToPause(this.level.coins);
                 this.charakter.isPlaying = false;
+                document.getElementById("pause").style = 'display: flex';
+                document.getElementById("continue").style = 'display: none';
                 break;
             default:
                 break;

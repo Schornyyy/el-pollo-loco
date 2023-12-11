@@ -1,7 +1,7 @@
 [] Favicon
 [x] title
-[] Background
-[] Sounds
+[x] Background
+[x] Sounds
 [x] small chicken
 [] restart Button
 [x] idle
@@ -11,4 +11,4 @@
 [x] Fullscreen option
 [] Responsive - Landscape
 [] JSDoc
-[] chicken died when jump on
+[x] chicken died when jump on

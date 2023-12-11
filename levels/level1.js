@@ -1,4 +1,5 @@
-const level1 = new Level(
+function createLevel() {
+    return new Level(
     [
     new SmallChicken(),
     new SmallChicken(),
@@ -40,4 +41,5 @@ const level1 = new Level(
     ],
     10,
     20
-);
+)
+}

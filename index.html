@@ -26,6 +26,10 @@
     <script src="./models/startscreen.class.js"></script>
     <script src="./models/endscreen.class.js"></script>
     <script src="./js/game.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
   </head>
   <body onload="init()">
     <h1>El pollo loco</h1>
@@ -34,6 +38,7 @@
 
     <div id="pause" style="display: none">
       <button id="continue">Weiterspielen</button>
+      <button id="pause-restart">Restart</button>
     </div>
 
     <div class="keys">
@@ -63,6 +68,22 @@
         <span class="button">F</span>
         <p>Fullscreen Mode</p>
       </div>
+    </div>
+
+    <div id="movement">
+      <div class="row">
+        <button id="mobile-up">&#8593;</button>
+      </div>
+      <div class="row-2">
+        <button id="mobile-left">&#8592;</button>
+        <button id="mobile-right">&#8594;</button>
+        <button id="mobile-throw">
+          <img src="./img/6_salsa_bottle/salsa_bottle.png" alt="bottle" />
+        </button>
+      </div>
+    </div>
+    <div id="options">
+      <button id="mobile-pause">ESC</button>
     </div>
   </body>
 </html>
