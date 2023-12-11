@@ -10,7 +10,7 @@ function init() {
     document.getElementById("start").addEventListener("click", (e) => {
         world.setStatus("PLAY");
         document.getElementById("start").style = "display: none;"
-        if (window.matchMedia("(orientation: landscape)").matches) {
+        if (window.matchMedia("(orientation: landscape)").matches && window.innerHeight < 480) {
             document.getElementById("options").style = 'display: block';
             document.getElementById("movement").style = 'display: flex';
          }
