@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
+    <title>El Pollo Loco</title>
     <script src="./models/world.class.js"></script>
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/moveable-object.class.js"></script>
@@ -15,6 +15,7 @@
     <script src="./models/bottle-bar.class.js"></script>
     <script src="./models/coin.class.js"></script>
     <script src="./models/chicken.class.js"></script>
+    <script src="./models/small-chicken.class.js"></script>
     <script src="./models/cloud.class.js"></script>
     <script src="./models/background-object.class.js"></script>
     <script src="./models/keyboard.class.js"></script>
@@ -30,9 +31,11 @@
     <h1>El pollo loco</h1>
     <canvas width="720" height="480" id="canvas"> </canvas>
     <button id="start">Spiel starten</button>
+
     <div id="pause" style="display: none">
       <button id="continue">Weiterspielen</button>
     </div>
+
     <div class="keys">
       <div class="key">
         <span class="button">&#8592;</span>
@@ -41,6 +44,10 @@
       <div class="key">
         <span class="button">&#8594;</span>
         <p>Nach Rechts laufen</p>
+      </div>
+      <div class="key">
+        <span class="button">D</span>
+        <p>Flaschen werfen</p>
       </div>
     </div>
     <div class="keys">
@@ -51,6 +58,10 @@
       <div class="key">
         <span class="button">ESC</span>
         <p>Das Spiel pausieren</p>
+      </div>
+      <div class="key">
+        <span class="button">F</span>
+        <p>Fullscreen Mode</p>
       </div>
     </div>
   </body>

@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let fullScreen = false;
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -14,7 +15,37 @@ function init() {
 
 }
 
+function enterFullScreen(element) {
+    if(element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    } else if(element.webkitFullscreen) {
+        element.webkitFullscreen();
+    }
+ }
+
+ function exitFullscreen() {
+    if(document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+ }
+
 window.addEventListener('keydown', (e) => {
+    if(world.charakter.isDead()) return;
+
+    if(e.keyCode == 70) {
+        if(fullScreen) {
+            exitFullscreen();
+            fullScreen = false;
+        } else {
+            fullScreen = true;
+            enterFullScreen(canvas);
+        }
+    }
+
     if(e.keyCode == 39) {
         keyboard.RIGHT = true;
     }
@@ -30,6 +61,9 @@ window.addEventListener('keydown', (e) => {
     }
     if(e.keyCode == 32) {
         keyboard.SPACE = true;
+        if(world.STATUS === "PLAY") {
+            world.charakter.lastJump = new Date().getTime();
+        }
     }
 
     if(e.keyCode == 68) {
@@ -53,6 +87,7 @@ window.addEventListener('keydown', (e) => {
 })
 
 window.addEventListener('keyup', (e) => {
+    if(world.charakter.isDead()) return;
     if(e.keyCode == 39) {
         keyboard.RIGHT = false;
     }

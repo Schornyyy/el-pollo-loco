@@ -13,6 +13,8 @@ class World {
     startScreen = new StartScreen(this);
     endScreen;
     STATUS = "START";
+    splash_sound = new Audio('audio/bottle.mp3');
+    chicken_hurt = new Audio('audio/chicken_hurt.mp3');
 
     
     constructor(canvas, keyboard) {
@@ -121,6 +123,9 @@ class World {
             this.throwableObjects.forEach((bottle, bindex) => {
                 this.level.enemies.forEach((enemy, index) => {
                     if(bottle.isColliding(enemy)) {
+                        this.splash_sound.currentTime = 1;
+                        this.splash_sound.play();
+                        this.chicken_hurt.play();
                         if(enemy.health > 0) {
                             bottle.colliding = true;
                             bottle.playSplashAnimation();
@@ -128,7 +133,7 @@ class World {
                             enemy.healthbar.setPercentage(enemy.health);
                             setTimeout(() => {
                                 this.throwableObjects.splice(bindex, 1);
-                            }, 200);
+                            }, 100);
                         } else {
                             if(enemy instanceof Endboss) {
                                 enemy.dead = true;
@@ -181,7 +186,7 @@ class World {
 
             this.addObjectsToMap(this.level.enemies);
             this.level.enemies.forEach((enemy) => {
-                if(enemy instanceof Chicken ) {
+                if(enemy instanceof Chicken || enemy instanceof SmallChicken) {
                     this.addToMap(enemy.healthbar);
                 } else if(enemy instanceof Endboss) {
                     enemy.healthbar.position_x = enemy.position_x;
