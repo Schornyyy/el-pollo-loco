@@ -18,8 +18,14 @@ class ThrowableObject extends MoveableObject {
     colliding = false;
     damage = 20;
     lastHit = 0;
+    onGround;
 
 
+    /**
+     * 
+     * @param {Number} x - Auf welcher X Cordinate soll es angezeigt werden? 
+     * @param {Number} y - Auf welcher Y Cordinate soll es angezeigt werden?
+     */
     constructor(x, y) {
         super().loadImage('./img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.IMAGES);
@@ -29,30 +35,46 @@ class ThrowableObject extends MoveableObject {
         this.height = 75;
         this.width = 50;
         this.isPlaying = true;
+        this.onGround = false;
         this.throw()
     }
 
+    /**
+     * Wird das object mir Grafitation.
+     */
     throw() {
         this.speedY = 10;
         this.applyGravity();
         setInterval(() => {
-            if(this.colliding) {
-                this.position_x = this.position_x;
-            } else {
-                if(this.otherDirection) {
-                    this.position_x -= 10;
-                } else {
-                    this.position_x += 10;
+                if(this.position_y > 200 && this.position_y < 300) {
+                    if(this.colliding) {
+                        this.position_x = this.position_x;
+                    } else {
+                        if(this.otherDirection) {
+                            this.position_x -= 10;
+                        } else {
+                            this.position_x += 10;
+                        }
+                    }
+                } else if(this.position_y > 360){
+                    this.speedY = 0;
+                    this.position_y = this.position_y;
+                    this.onGround = true;
                 }
-            }
         }, 25);
 
         setInterval(() => {
-                    this.playAnimation(this.IMAGES);
-                
+            if(this.onGround) {
+                this.loadImage('./img/6_salsa_bottle/2_salsa_bottle_on_ground.png')
+            } else {
+                this.playAnimation(this.IMAGES);
+            }
         }, 75)
     }
 
+    /**
+     * Zeigt die Splash Animation der Bottle an.
+     */
     playSplashAnimation() {
         let i = 0;
         let test = setInterval(() => {

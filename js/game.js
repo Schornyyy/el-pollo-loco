@@ -24,6 +24,10 @@ function init() {
         world.setStatus("PLAY");
     })
 
+    document.getElementById("mute").addEventListener("click", (e) => {
+        world.muted = !world.muted;
+    })
+
     handleMobileNav();
 }
 
@@ -92,6 +96,7 @@ window.addEventListener('keydown', (e) => {
         if(keyboard.ESC && world.STATUS === "PLAY") {
             world.setStatus("PAUSE");
             document.getElementById("pause").style = "display: flex";
+            document.getElementById("continue").style = 'display: flex';
             document.getElementById("continue").addEventListener("click", (e) => {
                 world.setStatus("PLAY");
                 document.getElementById("pause").style = "display: none";
@@ -147,6 +152,17 @@ function handleMobileNav() {
     keyboard.SPACE = false;
  })
 
+ mobile_left.addEventListener("mousedown", (e) => {
+    currentInterval = setInterval(() => {
+        keyboard.LEFT = true;
+    }, 100)
+ })
+
+ mobile_left.addEventListener("mouseup", (e) => {
+    keyboard.LEFT = false;
+    clearInterval(currentInterval);
+ })
+
  mobile_right.addEventListener("click", (e) => {
     keyboard.RIGHT = true;
     keyboard.LEFT = false;
@@ -173,6 +189,7 @@ function handleMobileNav() {
         if(keyboard.ESC && world.STATUS === "PLAY") {
             world.setStatus("PAUSE");
             document.getElementById("pause").style = "display: flex";
+            document.getElementById("continue").style = 'display: flex';
             document.getElementById("continue").addEventListener("click", (e) => {
                 world.setStatus("PLAY");
                 document.getElementById("pause").style = "display: none";
@@ -182,6 +199,10 @@ function handleMobileNav() {
             document.getElementById("pause").style = "display: none";
         }
  })
+
+ setInterval(() => {
+    clearKeyboard();
+ }, 100)
  
 }
 

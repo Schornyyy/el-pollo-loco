@@ -9,6 +9,9 @@ class MoveableObject extends DrawableObject{
     isPlaying = false;
     healthbar = new Healthbar();
 
+    /**
+     * Das Object bekommt Grafitation.
+     */
     applyGravity() {
         setInterval(() => {
             if(this.isAboveGround() || this.speedY > 0) {
@@ -21,13 +24,19 @@ class MoveableObject extends DrawableObject{
         }, 1000 / 25)
     }
 
-
+    /**
+     * 
+     * @returns ob der Object in der Luft ist also über 150 in den Coordinaten X.
+     */
     isAboveGround() {
         if(this instanceof ThrowableObject) return true;
         return this.position_y < 150;
     }
 
 
+    /**
+     * Das Object bewergt sich nach links.
+     */
     moveLeft() {
         if(this.isPlaying) {
             this.healthbar.position_x = this.position_x;
@@ -38,6 +47,10 @@ class MoveableObject extends DrawableObject{
         }
     }
 
+    /**
+     * 
+     * @param {Array} images - welche Images animiert werden sollen.
+     */
     playAnimation(images) {
         if(this.isPlaying) {
             let i = this.currentImage % images.length;
@@ -47,16 +60,27 @@ class MoveableObject extends DrawableObject{
         }
     }
 
+    /**
+     * Lässt das Object springen
+     */
     jump() {
         this.speedY = 20;
         this.isJumping = true;
     }
 
+    /**
+     * Das Object bewergt sich nach rechts.
+     */
     moveRight() {
         this.position_x += this.speed;
         this.otherDirection = false;
     }
 
+    /**
+     * 
+     * @param {MoveableObject} mo - mit welchem Object collidiert es? 
+     * @returns true oder false.
+     */
     isColliding(mo) {
         return this.position_x + this.width > mo.position_x 
         && this.position_y + this.height > mo.position_y
@@ -64,6 +88,18 @@ class MoveableObject extends DrawableObject{
         && this.position_y < mo.position_y + mo.height;
     }
 
+    /**
+     * 
+     * @param {MoveableObject} mo - auf welchenm Object soll gesprungen werden? 
+     * @returns true oder false.
+     */
+    isJumpOn(mo) {
+        return this.position_y < mo.position_y + mo.height; 
+    }
+
+    /**
+     * Zieht das leben vom Object ab wenn er getroffen wurde.
+     */
     hit() {
         this.energy -= 5;
         if(this.energy < 0) {
@@ -73,12 +109,20 @@ class MoveableObject extends DrawableObject{
         }
     }
 
+    /**
+     * 
+     * @returns wurde er vor mehr als 1 sekunde verletzt?
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
+    /**
+     * 
+     * @returns ist das Object tot = true;
+     */
     isDead() {
         return this.energy == 0;
     }

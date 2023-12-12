@@ -20,6 +20,10 @@ class SmallChicken extends MoveableObject{
         this.healthbar.position_y = this.position_y + 20;
     }
 
+    
+    /**
+     * Animiert die Bilder des small chickens.
+     */
     animate() {
         setInterval(() => {
             if(this.isPlaying && this.health > 0) {

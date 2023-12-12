@@ -20,6 +20,9 @@ class Chicken extends MoveableObject{
         this.healthbar.position_y = this.position_y + 20;
     }
 
+    /**
+     * Animiert die Images des Chicken.
+     */
     animate() {
         setInterval(() => {
             if(this.isPlaying && this.health > 0) {

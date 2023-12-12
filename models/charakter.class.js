@@ -71,6 +71,9 @@ class Character extends MoveableObject{
     hurt_sound = new Audio('audio/pepe_hurt.mp3');
     jump_sound = new Audio('audio/jump.mp3');
 
+    /**
+     * Wir immer neu intzialisiert wenn man new Charakter() aufruft.
+     */
     constructor() {
         super().loadImage("./img/2_character_pepe/2_walk/W-21.png")
         this.loadImages(this.IMAGES_WALKING)
@@ -83,18 +86,26 @@ class Character extends MoveableObject{
         this.animate();
     }
 
+    /**
+     * Handelt die Animation der Images von dem Charakter
+     */
     animate() {
         setInterval(() => {
             if(this.world.STATUS === "PLAY") {
                 if(this.world.keyboard.RIGHT && this.position_x < this.world.level.level_end_x) {
                     this.moveRight()
-                    this.walking_sound.play();
+                    if(!this.world.muted) {
+                        this.walking_sound.play();
+                    }
                     this.lastMove = new Date().getTime();
                 }
     
                 if(this.world.keyboard.LEFT && this.position_x > 0) {
                     this.moveLeft();
-                    this.walking_sound.play();
+                    if(!this.world.muted) {
+                        this.walking_sound.play();
+                    }
+                    
                     this.otherDirection = true;
                     this.lastMove = new Date().getTime();
                 }
@@ -121,16 +132,28 @@ class Character extends MoveableObject{
                     }, 200);
                 } else if(this.isHurt()) {
                     this.playAnimation(this.IMAGES_HURT);
-                    this.hurt_sound.play();
+                    try {
+                        if(!this.world.muted) {
+                            this.hurt_sound.play();
+                        }
+                    } catch (error) {
+                        
+                    }
                 }else if(lastMoveInSeconds > 4) {
                     this.playAnimation(this.IMAGES_LONG_IDEL);
-                }  else if(lastMoveInSeconds > 1) {
+                }  else if(lastMoveInSeconds > 0.5) {
                     this.playAnimation(this.IMAGES_IDLE);
                 }  else {
                     if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                         // Walk Animation
                         this.playAnimation(this.IMAGES_WALKING);
-                        this.walking_sound.play();
+                        try {
+                            if(!this.world.muted) {
+                                this.walking_sound.play();
+                            }
+                        } catch (error) {
+                            
+                        };
                     }   
                 }
             }
@@ -142,7 +165,9 @@ class Character extends MoveableObject{
             lastJump = lastJump / 1000;
             if(this.isAboveGround() && this.isJumping) {
                 this.playAnimation(this.IMAGES_JUMPING);
-                this.jump_sound.play();
+                if(!this.world.muted) {
+                    this.jump_sound.play();
+                }
                 if(lastJump > 0.2) {
                     this.jump_sound.pause();
                     this.jump_sound.currentTime = 0;
@@ -155,16 +180,31 @@ class Character extends MoveableObject{
         }, 120)
     }
 
+    /**
+     * Alle sounds werden pausiert nach 120 millisekunden um ein heufiges wiederholen zu verhindern
+     */
     clearAllSounds() {
-        this.walking_sound.pause();
-        this.hurt_sound.pause();
+        try {
+            this.walking_sound.pause();
+            this.hurt_sound.pause();
+        } catch (error) {
+            
+        }
     }
 
+    /**
+     * 
+     * @param {amoutn} coins - wieviele coins der Spieler eingesammelt hat. 
+     * @param {index} index - welcher index von dem coins array removed werden soll.
+     */
     collectCoin(coins, index) {
         this.coins += coins;
         this.world.level.coins.splice(index, 1);
     }
 
+    /**
+     * lässt den Spieler springen.
+     */
     jump() {
         this.speedY = 20;
     }

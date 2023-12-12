@@ -40,6 +40,9 @@ class Endboss extends MoveableObject {
         this.animate();
     }
 
+    /**
+     * Animiert die Images des Endbosses.
+     */
     animate() {
         let ani = setInterval(() => {
             if(this.dead) {

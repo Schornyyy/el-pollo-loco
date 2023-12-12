@@ -9,7 +9,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
-  width: 99%;
+  width: 100%;
+  margin: 0;
 }
 
 * {
@@ -149,9 +150,83 @@ button:hover {
   right: 15px;
 }
 
+.turn-device {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.device {
+  height: 64px;
+  width: 64px;
+  object-fit: contain;
+  animation-name: turn;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+#mute {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  top: 13%;
+  right: 17%;
+  outline: none;
+  padding: 0;
+  width: max-content;
+}
+
+#mute:hover {
+  border: none;
+  box-shadow: none;
+}
+
+#mute img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+}
+
+@keyframes turn {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  50% {
+    transform: rotateZ(90deg);
+  }
+}
+
+@media only screen and (min-width: 760px) {
+  #movement,
+  #options {
+    display: none !important;
+  }
+}
+
 @media only screen and (max-width: 760px) {
   canvas {
-    width: 100%;
+    display: none;
+  }
+  .turn-device {
+    display: flex;
+  }
+
+  #options {
+    display: none !important;
+  }
+
+  #pause {
+    display: none !important;
+  }
+
+  #start,
+  #movement {
+    display: none !important;
+  }
+
+  .keys {
+    display: none !important;
   }
 }
 
@@ -163,6 +238,7 @@ button:hover {
 
 @media (orientation: landscape) and (max-height: 480px) {
   canvas {
+    display: block;
     height: 100vh;
     width: 100%;
     position: relative;
@@ -182,5 +258,9 @@ button:hover {
 
   .options {
     display: block;
+  }
+
+  .turn-device {
+    display: none;
   }
 }

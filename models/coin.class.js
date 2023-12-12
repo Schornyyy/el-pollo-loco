@@ -12,6 +12,9 @@ class Coin extends MoveableObject{
         this.position_x = x;
     }
 
+    /**
+     * animiert die Images des Coins
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_WALKING)

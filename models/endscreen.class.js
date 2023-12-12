@@ -19,6 +19,10 @@ class Endscreen extends MoveableObject {
         this.otherDirection = false;
     }
 
+    /**
+     * 
+     * @returns random Gameover Screen
+     */
     loadRandomImage() {
         let i = Math.round(Math.random() * this.IMAGES.length);
         return this.loadImage(this.IMAGES[i]);

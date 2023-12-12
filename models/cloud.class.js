@@ -13,6 +13,9 @@ class Cloud extends MoveableObject{
         this.animate();
     } 
 
+    /**
+     * animiert die Images der Wolken.
+     */
     animate() {
         setInterval(() => {
             this.moveLeft();

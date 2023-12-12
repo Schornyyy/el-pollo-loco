@@ -8,11 +8,20 @@ class DrawableObject {
     width = 100;
 
 
+    /**
+     * 
+     * @param {ImagePath} path - der Path con dem Image was geladen werden soll. 
+     */
     loadImage(path) {
         this.img = new Image()
         this.img.src = path;
     }
 
+    
+    /**
+     * 
+     * @param {Array} arr - Das Array von Images die animiert werden soll. 
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -21,10 +30,19 @@ class DrawableObject {
         });
     }
 
+    /**
+     * 
+     * @param {Context} ctx - zeichnet das geladene Bild auf die angegebenen coordinaten auf den Context des Canvas. 
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.position_x, this.position_y, this.width, this.height)
     }
 
+
+    /**
+     * 
+     * @param {Context} ctx - zeichnet ein Ramen um ausgewählte Elemente auf dem Canvas. 
+     */
     drawFrame(ctx) {
         if(this instanceof Character || this instanceof Chicken) {
             ctx.beginPath();

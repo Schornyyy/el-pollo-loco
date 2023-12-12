@@ -7,7 +7,10 @@
     otherDirection = false;
     IMAGES = ["./img/9_intro_outro_screens/start/startscreen_1.png", "./img/9_intro_outro_screens/start/startscreen_2.png"]
 
-
+/**
+ * 
+ * @param {World} world - auf welcher Welt soll der Startscreen angezeigt werden? 
+ */
     constructor(world) {
         super().loadImage(this.IMAGES[0]);
         this.loadImages(this.IMAGES);
