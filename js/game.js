@@ -3,6 +3,9 @@ let world;
 let keyboard = new Keyboard();
 let fullScreen = false;
 
+/**
+ * Initialisiert alle notwendingen Funtionen.
+ */
 function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard)
@@ -22,19 +25,32 @@ function init() {
         world.charakter.position_x = 0;
         world.charakter.energy = 100;
         world.setStatus("PLAY");
+        clearKeyboard();
     })
 
     document.getElementById("mute").addEventListener("click", (e) => {
         world.muted = !world.muted;
     })
 
+    document.addEventListener("contextmenu", function (e){
+        e.preventDefault();
+    }, false);
+
     handleMobileNav();
 }
 
+
+/**
+ * Erstellt ein neues Level.
+ */
 function restart() {
     world.level = createLevel();
 }
 
+/**
+ * Setzt den Canvas auf Fullscreen
+ * @param {Canvas} element 
+ */
 function enterFullScreen(element) {
     if(element.requestFullscreen) {
         element.requestFullscreen();
@@ -45,6 +61,9 @@ function enterFullScreen(element) {
     }
  }
 
+ /**
+  * Geht zurück in den normalen Window Mode.
+  */
  function exitFullscreen() {
     if(document.exitFullscreen) {
         document.exitFullscreen();
@@ -53,6 +72,9 @@ function enterFullScreen(element) {
     }
  }
 
+ /**
+  * Checkt welcher Button gedrückt wird
+  */
 window.addEventListener('keydown', (e) => {
     if(world.charakter.isDead()) return;
 
@@ -108,6 +130,9 @@ window.addEventListener('keydown', (e) => {
     }
 })
 
+/**
+ * Chekct welcher Button losgelassen wird.
+ */
 window.addEventListener('keyup', (e) => {
     if(world.charakter.isDead()) return;
     if(e.keyCode == 39) {
@@ -132,6 +157,9 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
+/**
+ * Handelt alle Bewegung für Mobile.
+ */
 function handleMobileNav() {
  let mobile_up = document.getElementById("mobile-up");
  let mobile_left = document.getElementById("mobile-left");
@@ -139,50 +167,32 @@ function handleMobileNav() {
  let throwBottle = document.getElementById("mobile-throw");
  let canvas = document.getElementById("canvas");
  let esc = document.getElementById("mobile-pause");
+
+ const buttonKeyMappings = [
+    { buttonId: 'mobile-left', keyProperty: 'LEFT' },
+    { buttonId: 'mobile-right', keyProperty: 'RIGHT' },
+    { buttonId: 'mobile-up', keyProperty: 'SPACE' },
+    { buttonId: 'mobile-throw', keyProperty: 'D' }
+];
  
- mobile_up.addEventListener("click", (e) => {
-    keyboard.SPACE = true;
-    keyboard.LEFT = false;
-    keyboard.RIGHT = false;
- })
-
- mobile_left.addEventListener("click", (e) => {
-    keyboard.LEFT = true;
-    keyboard.RIGHT = false;
-    keyboard.SPACE = false;
- })
-
- mobile_left.addEventListener("mousedown", (e) => {
-    currentInterval = setInterval(() => {
-        keyboard.LEFT = true;
-    }, 100)
- })
-
- mobile_left.addEventListener("mouseup", (e) => {
-    keyboard.LEFT = false;
-    clearInterval(currentInterval);
- })
-
- mobile_right.addEventListener("click", (e) => {
-    keyboard.RIGHT = true;
-    keyboard.LEFT = false;
-    keyboard.SPACE = false;
- })
-
- throwBottle.addEventListener('click', () => {
-    clearKeyboard();
-    if(world.STATUS === "PLAY") {
-        keyboard.D = true;
+buttonKeyMappings.forEach(mapping => {
+    try {
+        const buttonElement = document.getElementById(mapping.buttonId);
+    // Mouse Events
+    buttonElement.addEventListener('mousedown', () => keyboard[mapping.keyProperty] = true);
+    buttonElement.addEventListener('mouseup', () => keyboard[mapping.keyProperty] = false);
+    buttonElement.addEventListener('mouseleave', () => keyboard[mapping.keyProperty] = false);
+    // Touch Events
+    buttonElement.addEventListener('touchstart', (event) => {
+        keyboard[mapping.keyProperty] = true;
+    });
+    buttonElement.addEventListener('touchend', (event) => {
+        keyboard[mapping.keyProperty] = false;
+    });
+    } catch (error) {
         
-    setTimeout(() => {
-        keyboard.D = false;
-    }, 50)
     }
- })
-
- canvas.addEventListener("click", () => {
-    clearKeyboard();
- })
+});
 
  esc.addEventListener('click', () => {
     keyboard.ESC = !keyboard.ESC;
@@ -199,11 +209,6 @@ function handleMobileNav() {
             document.getElementById("pause").style = "display: none";
         }
  })
-
- setInterval(() => {
-    clearKeyboard();
- }, 100)
- 
 }
 
 function clearKeyboard() {
