@@ -78,11 +78,11 @@ class MoveableObject extends DrawableObject{
 
     /**
      * 
-     * @param {MoveableObject} mo - mit welchem Object collidiert es? 
+     * @param {MoveableObject} obj - mit welchem Object collidiert es? 
      * @returns true oder false.
      */
     isColliding(mo) {
-        return this.position_x + this.width > mo.position_x 
+        return  this.position_x + this.width > mo.position_x 
         && this.position_y + this.height > mo.position_y
         && this.position_x < mo.position_x
         && this.position_y < mo.position_y + mo.height;

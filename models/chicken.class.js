@@ -30,11 +30,12 @@ class Chicken extends MoveableObject{
             }
         }, 1000 / 60)
         
-        setInterval(() => {
+        let death = setInterval(() => {
             if(this.isPlaying) {
                 this.playAnimation(this.IMAGES_WALKING)
                 if(this.health <= 0) {
                     this.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
+                    clearInterval(death);
                 }
             }
         }, 100)

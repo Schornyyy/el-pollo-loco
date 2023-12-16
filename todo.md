@@ -10,5 +10,9 @@
 [x] Jump Animation
 [x] Fullscreen option
 [x] Responsive - Landscape
-[] JSDoc
+[x] JSDoc
 [x] chicken died when jump on
+
+[x]todes Animation
+[] spieler bekommt kein schaden wenn er stehen bleibt beim endboss
+[] mute btn

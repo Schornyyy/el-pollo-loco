@@ -67,9 +67,6 @@ class Character extends MoveableObject{
     world;
     lastMove = new Date().getTime();
     lastJump;
-    walking_sound = new Audio('audio/steps.mp3');
-    hurt_sound = new Audio('audio/pepe_hurt.mp3');
-    jump_sound = new Audio('audio/jump.mp3');
 
     /**
      * Wir immer neu intzialisiert wenn man new Charakter() aufruft.
@@ -95,7 +92,7 @@ class Character extends MoveableObject{
                 if(this.world.keyboard.RIGHT && this.position_x < this.world.level.level_end_x) {
                     this.moveRight()
                     if(!this.world.muted) {
-                        this.walking_sound.play();
+                        this.world.sounds[3].play();
                     }
                     this.lastMove = new Date().getTime();
                 }
@@ -103,7 +100,7 @@ class Character extends MoveableObject{
                 if(this.world.keyboard.LEFT && this.position_x > 0) {
                     this.moveLeft();
                     if(!this.world.muted) {
-                        this.walking_sound.play();
+                        this.world.sounds[3].play();
                     }
                     
                     this.otherDirection = true;
@@ -134,7 +131,7 @@ class Character extends MoveableObject{
                     this.playAnimation(this.IMAGES_HURT);
                     try {
                         if(!this.world.muted) {
-                            this.hurt_sound.play();
+                            this.world.sounds[4].play();
                         }
                     } catch (error) {
                         
@@ -166,11 +163,11 @@ class Character extends MoveableObject{
             if(this.isAboveGround() && this.isJumping) {
                 this.playAnimation(this.IMAGES_JUMPING);
                 if(!this.world.muted) {
-                    this.jump_sound.play();
+                    this.world.sounds[5].play();
                 }
                 if(lastJump > 0.2) {
-                    this.jump_sound.pause();
-                    this.jump_sound.currentTime = 0;
+                    this.world.sounds[5].pause();
+                    this.world.sounds[5].currentTime = 0;
                 }
             } 
         }, 110)
@@ -185,8 +182,8 @@ class Character extends MoveableObject{
      */
     clearAllSounds() {
         try {
-            this.walking_sound.pause();
-            this.hurt_sound.pause();
+            this.world.sounds[3].pause();
+            this.world.sounds[4].pause();
         } catch (error) {
             
         }

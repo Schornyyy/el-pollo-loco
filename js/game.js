@@ -29,7 +29,11 @@ function init() {
     })
 
     document.getElementById("mute").addEventListener("click", (e) => {
+        let mute = document.getElementById("mute-img");
         world.muted = !world.muted;
+        let audi = document.querySelectorAll("audio");
+        world.muted ? world.muteAllSounds() : world.unMuteAllSounds();
+        world.muted ? mute.src = "./img/mute_icon.svg" : mute.src ="./img/tdesign_sound.svg"
     })
 
     document.addEventListener("contextmenu", function (e){

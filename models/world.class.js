@@ -13,10 +13,8 @@ class World {
     startScreen = new StartScreen(this);
     endScreen;
     STATUS = "START";
-    splash_sound = new Audio('audio/bottle.mp3');
-    chicken_hurt = new Audio('audio/chicken_hurt.mp3');
-    music = new Audio('audio/music.mp3');
     muted;
+    sounds;
 
     /**
      * 
@@ -38,6 +36,13 @@ class World {
         this.endScreen = new Endscreen(this);
         this.bossAttacksPlayer();
         this.muted = false;
+        this.sounds = [new Audio('../audio/music.mp3'),
+        new Audio('audio/chicken_hurt.mp3'),
+        new Audio('audio/bottle.mp3'),
+        new Audio('audio/steps.mp3'),
+        new Audio('audio/pepe_hurt.mp3'),
+        new Audio('audio/jump.mp3'),
+        ]
     }
 
     /**
@@ -51,6 +56,18 @@ class World {
         }, 100)
     }
 
+    muteAllSounds() {
+        this.sounds.forEach(sound => {
+            sound.muted = true;
+        })
+    }
+
+    unMuteAllSounds() {
+        this.sounds.forEach(sound => {
+            sound.muted = false;
+        })
+    }
+
     /**
      * setzt und handelt den Status des Spiels 
      * @param {String} status - <START|PLAY|END|PAUSE> 
@@ -58,24 +75,20 @@ class World {
     setStatus(status) {
         switch (status) {
             case "START":
-                document.getElementById("start").sytle = "display: none;";
+                this.drawStartScreen()
+                document.getElementById("start").sytle = "display: flex;";
                 break;
             case "PAUSE":
                 this.setAllToPause(this.level.enemies);
                 this.setAllToPause(this.level.clouds);
                 this.setAllToPause(this.level.coins);
                 this.charakter.isPlaying = false;
-                this.music.pause();
                 break;
             case "PLAY":
                 this.setAllToPlaying(this.level.enemies);
                 this.setAllToPlaying(this.level.clouds);
                 this.setAllToPlaying(this.level.coins);
                 this.charakter.isPlaying = true;
-                if(!this.muted) {
-                    this.music.volume = 0.02;
-                    this.music.play();
-                }
                 document.getElementById("pause").style = 'display: none';
                 break;
             case "END":
@@ -145,7 +158,7 @@ class World {
     checkCollisions() {
         if(this.STATUS == "PLAY") {
             this.level.enemies.forEach(enemy => {
-                if(this.charakter.isColliding(enemy)) {
+                if(this.charakter.isColliding(enemy) || enemy.isColliding(this.charakter)) {
                     if(this.charakter.isJumpOn(enemy) && !(enemy instanceof Endboss) && this.charakter.isAboveGround()) {
                         enemy.health -= enemy.health;
                         enemy.healthbar.setPercentage(enemy.health);
@@ -169,24 +182,27 @@ class World {
                     if(bottle.isColliding(enemy)) {
                         if(enemy.health > 0) {
                             if(!this.muted) {
-                                this.splash_sound.currentTime = 1;
-                                this.splash_sound.play();
-                                this.chicken_hurt.play();
+                                this.sounds[2] = 1;
+                                this.sounds[2].play();
+                                this.sounds[1].play();
                             }
                             bottle.colliding = true;
+                            console.log("test");
                             bottle.playSplashAnimation();
                             enemy.health -= bottle.damage;
                             enemy.healthbar.setPercentage(enemy.health);
                             setTimeout(() => {
                                 this.throwableObjects.splice(bindex, 1);
                             }, 100);
+                            if(enemy instanceof Endboss) {
+                                enemy.lastHit = new Date().getTime();
+                            }
                         } else {
                             if(enemy instanceof Endboss) {
                                 enemy.dead = true;
+                                this.setStatus("END")
                             }
                         }
-                    } else {
-                        // set bottle on ground
                     }
                 })
 
@@ -230,6 +246,10 @@ class World {
                 } else if(this.charakter.position_x > endboss.position_x) {
                     endboss.otherDirection = true;
                     endboss.position_x += 20;
+                }
+                if(endboss.isColliding(this.charakter)){
+                    this.charakter.hit()
+                    this.healthbar.setPercentage(this.charakter.energy)
                 }
             }
         }, 100);
